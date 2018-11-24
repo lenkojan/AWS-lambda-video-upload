@@ -1,0 +1,10 @@
+{
+    "LambdaFunctionConfigurations": [
+        {
+            "LambdaFunctionArn": "arn:aws:lambda:eu-west-1:033269891345:function:studivz-transcode-videos", 
+            "Events": [
+                "s3:ObjectCreated:*"
+            ]
+        }
+    ]
+}

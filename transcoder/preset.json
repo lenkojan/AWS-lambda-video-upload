@@ -1,0 +1,8 @@
+{
+    "Format": "png",
+    "Interval": "60",
+    "MaxWidth": "760",
+    "MaxHeight": "370",
+    "SizingPolicy": "ShrinkToFit",
+    "PaddingPolicy": "NoPad"
+}

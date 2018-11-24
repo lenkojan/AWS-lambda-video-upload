@@ -1,0 +1,3 @@
+#!/bin/bash
+CUSTOMER_ID=
+sed "s/CUSTOMER_ID/$CUSTOMER_ID/g" script.template>script

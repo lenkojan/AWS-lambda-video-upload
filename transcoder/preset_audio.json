@@ -1,0 +1,9 @@
+{
+    "Codec": "AAC",
+    "SampleRate": "44100",
+    "BitRate": "128",
+    "Channels": "2",
+    "CodecOptions": {
+        "Profile": "AAC-LC"
+    }
+}
