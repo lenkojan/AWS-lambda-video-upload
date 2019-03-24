@@ -1,0 +1,6 @@
+rm -f create_stack
+rm -f delete_stack
+rm -f ../iam/upload-s3-policy.json
+rm -f ../iam/stream-s3-policy.json
+rm -f ../iam/upload-policy.json
+rm -f ../iam/lambda-log-policy.json

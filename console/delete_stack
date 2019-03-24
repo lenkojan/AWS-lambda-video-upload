@@ -1,0 +1,3 @@
+aws s3 rb s3://testujem-video-upload --force
+aws s3 rb s3://testujem-video-stream --force
+aws s3 rb s3://testujem-video-thumbnails --force

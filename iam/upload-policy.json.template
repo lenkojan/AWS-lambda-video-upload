@@ -41,9 +41,9 @@
             ],
             "Resource": [
                 "arn:aws:s3:::*/*",
-                "arn:aws:s3:::testujem-video-upload",
-                "arn:aws:s3:::testujem-video-stream",
-                "arn:aws:s3:::testujem-video-thumbnails"
+                "arn:aws:s3:::TEMPLATE_BUCKET_NAME_TO_UPLOAD",
+                "arn:aws:s3:::TEMPLATE_BUCKET_NAME_FOR_VIDEOS",
+                "arn:aws:s3:::TEMPLATE_BUCKET_NAME_FOR_THUMBNAILS"
             ]
         },
         {

@@ -1,0 +1,53 @@
+#!/bin/bash
+# create bucket for video upload
+aws s3api create-bucket --bucket testujem-video-upload --region eu-west-1 --create-bucket-configuration LocationConstraint=eu-west-1
+# update bucket policy
+aws s3api put-bucket-policy --bucket testujem-video-upload --policy file://iam/upload-s3-policy.json
+# set cors for upload bucket
+aws s3api put-bucket-cors --bucket testujem-video-upload --cors-configuration file://cors/upload-s3-cors.json
+# create bucket for video streaming
+aws s3api create-bucket --bucket testujem-video-stream --region eu-west-1 --create-bucket-configuration LocationConstraint=eu-west-1
+# update bucket policy
+aws s3api put-bucket-policy --bucket testujem-video-stream --policy file://iam/stream-s3-policy.json
+# set cors for streaming bucket
+aws s3api put-bucket-cors --bucket testujem-video-stream --cors-configuration file://cors/upload-s3-cors.json
+
+
+# create transcoder preset
+aws elastictranscoder create-preset --name testing_transcoder_presset --container mp4 --video file://transcoder/preset_video.json --audio file://transcoder/preset_audio.json --thumbnails file://transcoder/preset_thumbnails.json --description "Custom preset for video transcoding"
+# create iam policy for uploading
+aws iam create-policy --policy-name testing_uploading_policy_name --policy-document file://iam/upload-policy.json
+# create role for transcoder
+aws iam create-role --role-name testing_transcoder_role --assume-role-policy-document file://iam/role-policy-document.json
+# attach policies to role
+aws iam attach-role-policy --role-name testing_transcoder_role --policy-arn arn:aws:iam::033269891345:policy/testing_uploading_policy_name
+# create pipeline for franscoder
+aws elastictranscoder create-pipeline --name testing_pipeline --input-bucket testujem-video-upload --output-bucket testujem-video-stream --role arn:aws:iam::033269891345:role/testing_transcoder_role
+
+# create role for lambdas
+aws iam create-role --role-name testing_lambda_role --assume-role-policy-document file://iam/lamda-video-role.json
+# attach job submitter policy
+aws iam attach-role-policy --role-name testing_lambda_role --policy-arn arn:aws:iam::aws:policy/AmazonElasticTranscoder_JobsSubmitter
+# attach policy for uploading files
+aws iam attach-role-policy --role-name testing_lambda_role --policy-arn arn:aws:iam::033269891345:policy/testing_uploading_policy_name
+# create policy for logging
+aws iam create-policy --policy-name testing_lambda_logging_policy --policy-document file://iam/upload-policy.json
+# attach policy for logging
+aws iam attach-role-policy --role-name testing_lambda_role --policy-arn arn:aws:iam::033269891345:policy/testing_lambda_logging_policy
+
+# create function for generating signed urls
+zip -j ../lambda/transcode-videos-get-url/index.zip ../lambda/transcode-videos-get-url/index.js
+aws lambda create-function --function-name testing_lambda_get_upload_url --zip-file fileb://lambda/transcode-videos-get-url/index.zip --handler index.handler --runtime nodejs6.10 --role arn:aws:iam::033269891345:role/testing_lambda_role --environment Variables="{BUCKET=testujem-video-upload,AUTH_DOMAIN=studivz.vinidev.com}"
+
+# create function for generating urls
+zip -j ../lambda/transcode-videos/index.zip ../lambda/transcode-videos/index.js
+aws lambda create-function --function-name studivz-transcode-videos --zip-file fileb://lambda/studivz-transcode-videos/index.zip --handler index.handler --runtime nodejs6.10 --role arn:aws:iam::033269891345:role/testing_lambda_role --environment Variables="{PIPELINE_ID=1540293809025-yh2xnu,PRESET_ID=1540285878044-7wh12n}"
+# attach policy to function so the s3 bucket can invoke it
+aws lambda add-permission --function-name studivz-transcode-videos --statement-id studivz-transcode-videos-invoke --action lambda:InvokeFunction --principal s3.amazonaws.com --source-arn "arn:aws:s3:::zautech-video-upload"
+# add bucket create notification
+aws s3api put-bucket-notification-configuration --bucket zautech-video-upload --notification-configuration file://lambda/upload-bucket-create-notification.json
+
+#create api gateway
+aws apigateway import-rest-api --body file://api_gateway/studivz-video-upload-prod-swagger-apigateway.json
+
+

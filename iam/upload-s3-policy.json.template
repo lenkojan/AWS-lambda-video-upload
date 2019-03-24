@@ -8,7 +8,7 @@
                 "AWS": "*"
             },
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::testujem-video-stream/*"
+            "Resource": "arn:aws:s3:::TEMPLATE_BUCKET_NAME_TO_UPLOAD/*"
         }
     ]
 }

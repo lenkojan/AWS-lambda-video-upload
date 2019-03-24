@@ -8,7 +8,7 @@
                 "AWS": "*"
             },
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::zautech-video-upload/*"
+            "Resource": "arn:aws:s3:::testujem-video-upload/*"
         }
     ]
 }
