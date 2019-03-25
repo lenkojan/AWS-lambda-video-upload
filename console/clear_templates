@@ -4,3 +4,4 @@ rm -f ../iam/upload-s3-policy.json
 rm -f ../iam/stream-s3-policy.json
 rm -f ../iam/upload-policy.json
 rm -f ../iam/lambda-log-policy.json
+rm -f ../api_gateway/video-upload-swagger-apigateway.json
