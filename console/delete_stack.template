@@ -1,3 +1,15 @@
+#!/bin/bash
+#delete buckets
 aws s3 rb s3://TEMPLATE_BUCKET_NAME_TO_UPLOAD --force
 aws s3 rb s3://TEMPLATE_BUCKET_NAME_FOR_VIDEOS --force
 aws s3 rb s3://TEMPLATE_BUCKET_NAME_FOR_THUMBNAILS --force
+
+#delete transcoder
+PIPELINE_ID=`aws elastictranscoder list-pipelines | jq -r '.Pipelines[]| select(.Name == "TEMPLATE_TRANSCODER_PIPELINE_NAME")|.Id'`
+aws elastictranscoder delete-pipeline --id $PIPELINE_ID
+POLICY_ARN=`aws iam list-policies | jq -r '.Policies[]| select(.PolicyName == "TEMPLATE_VIDEO_UPLOADING_POLICY_NAME")|.Arn'`
+aws iam detach-role-policy --role-name TEMPLATE_TRANSCODER_ROLE_NAME --policy-arn $POLICY_ARN
+aws iam delete-role --role-name TEMPLATE_TRANSCODER_ROLE_NAME
+aws iam delete-policy --policy-arn $POLICY_ARN 
+PRESET_ID=`aws elastictranscoder list-presets | jq -r '.Presets[]| select(.Name == "TEMPLATE_TRANSCODER_PRESSET_NAME")|.Id'`
+aws elastictranscoder delete-preset --id $PRESET_ID

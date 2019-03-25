@@ -2,23 +2,23 @@
 # create bucket
 aws s3api create-bucket --bucket TEMPLATE_BUCKET_NAME_TO_UPLOAD --region TEMPLATE_REGION --create-bucket-configuration LocationConstraint=TEMPLATE_REGION
 # update bucket policy
-aws s3api put-bucket-policy --bucket TEMPLATE_BUCKET_NAME_TO_UPLOAD --policy file://iam/upload-s3-policy.json
+aws s3api put-bucket-policy --bucket TEMPLATE_BUCKET_NAME_TO_UPLOAD --policy file://../iam/upload-s3-policy.json
 # set cors for upload bucket
-aws s3api put-bucket-cors --bucket TEMPLATE_BUCKET_NAME_TO_UPLOAD --cors-configuration file://cors/upload-s3-cors.json
+aws s3api put-bucket-cors --bucket TEMPLATE_BUCKET_NAME_TO_UPLOAD --cors-configuration file://../cors/upload-s3-cors.json
 # create bucket
 aws s3api create-bucket --bucket TEMPLATE_BUCKET_NAME_FOR_VIDEOS --region TEMPLATE_REGION --create-bucket-configuration LocationConstraint=TEMPLATE_REGION
 # update bucket policy
-aws s3api put-bucket-policy --bucket TEMPLATE_BUCKET_NAME_FOR_VIDEOS --policy file://iam/stream-s3-policy.json
+aws s3api put-bucket-policy --bucket TEMPLATE_BUCKET_NAME_FOR_VIDEOS --policy file://../iam/stream-s3-policy.json
 # set cors for upload bucket
-aws s3api put-bucket-cors --bucket TEMPLATE_BUCKET_NAME_FOR_VIDEOS --cors-configuration file://cors/upload-s3-cors.json
+aws s3api put-bucket-cors --bucket TEMPLATE_BUCKET_NAME_FOR_VIDEOS --cors-configuration file://../cors/upload-s3-cors.json
 
 
 # create transcoder preset
-aws elastictranscoder create-preset --name TEMPLATE_TRANSCODER_PRESSET_NAME --container mp4 --video file://transcoder/preset_video.json --audio file://transcoder/preset_audio.json --thumbnails file://transcoder/preset_thumbnails.json --description "Custom preset for video transcoding"
+aws elastictranscoder create-preset --name TEMPLATE_TRANSCODER_PRESSET_NAME --container mp4 --video file://../transcoder/preset_video.json --audio file://../transcoder/preset_audio.json --thumbnails file://../transcoder/preset_thumbnails.json --description "Custom preset for video transcoding"
 # create iam policy for uploading
-aws iam create-policy --policy-name TEMPLATE_VIDEO_UPLOADING_POLICY_NAME --policy-document file://iam/upload-policy.json
+aws iam create-policy --policy-name TEMPLATE_VIDEO_UPLOADING_POLICY_NAME --policy-document file://../iam/upload-policy.json
 # create role for transcoder
-aws iam create-role --role-name TEMPLATE_TRANSCODER_ROLE_NAME --assume-role-policy-document file://iam/role-policy-document.json
+aws iam create-role --role-name TEMPLATE_TRANSCODER_ROLE_NAME --assume-role-policy-document file://../iam/role-policy-document.json
 # attach policies to role
 aws iam attach-role-policy --role-name TEMPLATE_TRANSCODER_ROLE_NAME --policy-arn arn:aws:iam::TEMPLATE_CUSTOMER_ID:policy/TEMPLATE_VIDEO_UPLOADING_POLICY_NAME
 # create pipeline for franscoder
