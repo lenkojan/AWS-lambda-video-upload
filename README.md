@@ -1,13 +1,15 @@
 # AWS Video uploading
 ## Description
 This repo is designed for creating a AWS resource stack that can be used for video uploading and transcoding. The stack contains following resources :
+
 |Resource|Description|
 |--------|-----------|
 |AWS elastic transcoder preset|A new presset for optimal video conversion|
-|AWS elastic transcoder pipeline|A pipeline for running transcoder jobs with the new preset
-|AWS API gateway|API Gateway for requesting URL for uloading the original video. The URL is a S3 signed URL and is to be used with the [S3 REST API](https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
-|Lambda functions|Lambda functions for generating S3 signed url, starting elastic transcoder jobs and notification about job completion
-|Policies and roles|Policies and roles needed for running the stack 
+|AWS elastic transcoder pipeline|A pipeline for running transcoder jobs with the new preset|
+|AWS API gateway|API Gateway for requesting URL for uloading the original video. The URL is a S3 signed URL and is to be used with the [S3 REST API](https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)|
+|Lambda functions|Lambda functions for generating S3 signed url, starting elastic transcoder jobs and notification about job completion|
+|Policies and roles|Policies and roles needed for running the stack |
+
 The process of uploading and transcoding is as follow :
 1. User requests an AWS S3 signed url 
 2. User uploads original video to the url via [S3 REST API](https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
