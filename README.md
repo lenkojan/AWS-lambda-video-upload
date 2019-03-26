@@ -44,7 +44,7 @@ All configuration should be done in the [console/prepare](console/prepare) scrip
 |------|-----------|
 |[console/prepare](console/prepare)|Script for generating all necessary scripts
 |console/create_stack| Is used to deploy the solution to the account configured as default in the aws cli. Will be generated with the [console/prepare](console/prepare) script. 
-|console/create_stack| Is used to remove the solution from the account configured as default in the aws cli. Will be generated with the [console/prepare](console/prepare) script. 
+|console/delete_stack| Is used to remove the solution from the account configured as default in the aws cli. Will be generated with the [console/prepare](console/prepare) script. 
 |console/clear_templates| Is used to clear all files generated with the [console/prepare](console/prepare) script. 
 ## Deployment process
 1. Configure the variables in the [console/prepare](console/prepare) script
