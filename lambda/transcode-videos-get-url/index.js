@@ -31,7 +31,7 @@ exports.handler = (event, context, callback) => {
             callback(null, {
                 statusCode: '200',
                 headers: {'Access-Control-Allow-Origin': '*'},
-                body: `Output: ${JSON.stringify(res.statusCode)}, hostname : ${destHostname} , authorization : ${event.headers.Authorization} , environment : ${event.headers.Environment}`
+                body: `Output: ${JSON.stringify(res.statusCode)}, hostname : ${destHostname} , authorization : ${event.headers.Authorization}`
             });    
         }
         

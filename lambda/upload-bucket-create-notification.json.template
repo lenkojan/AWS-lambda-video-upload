@@ -1,7 +1,7 @@
 {
     "LambdaFunctionConfigurations": [
         {
-            "LambdaFunctionArn": "arn:aws:lambda:eu-west-1:033269891345:function:studivz-transcode-videos", 
+            "LambdaFunctionArn": "arn:aws:lambda:TEMPLATE_REGION:TEMPLATE_CUSTOMER_ID:function:TEMPLATE_LAMBDA_START_TRANSCODING_NAME", 
             "Events": [
                 "s3:ObjectCreated:*"
             ]

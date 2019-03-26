@@ -1,0 +1,10 @@
+{
+    "LambdaFunctionConfigurations": [
+        {
+            "LambdaFunctionArn": "arn:aws:lambda:TEMPLATE_REGION:TEMPLATE_CUSTOMER_ID:function:TEMPLATE_LAMBDA_NOTIFICATION_NAME", 
+            "Events": [
+                "s3:ObjectCreated:*"
+            ]
+        }
+    ]
+}

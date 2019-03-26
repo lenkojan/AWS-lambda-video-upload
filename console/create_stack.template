@@ -31,9 +31,11 @@ aws iam attach-role-policy --role-name TEMPLATE_LAMBDA_ROLE_NAME --policy-arn ar
 # attach policy for uploading files
 aws iam attach-role-policy --role-name TEMPLATE_LAMBDA_ROLE_NAME --policy-arn arn:aws:iam::TEMPLATE_CUSTOMER_ID:policy/TEMPLATE_VIDEO_UPLOADING_POLICY_NAME
 # create policy for logging
-aws iam create-policy --policy-name TEMPLATE_LAMBDA_LOGGING_POLICY_NAME --policy-document file://../iam/upload-policy.json
+aws iam create-policy --policy-name TEMPLATE_LAMBDA_LOGGING_POLICY_NAME --policy-document file://../iam/lambda-log-policy.json
 # attach policy for logging
 aws iam attach-role-policy --role-name TEMPLATE_LAMBDA_ROLE_NAME --policy-arn arn:aws:iam::TEMPLATE_CUSTOMER_ID:policy/TEMPLATE_LAMBDA_LOGGING_POLICY_NAME
+echo "Please wait for roles to take effect"
+sleep 10
 
 # create function for generating signed urls
 zip -j ../lambda/transcode-videos-get-url/index.zip ../lambda/transcode-videos-get-url/index.js
@@ -48,6 +50,14 @@ aws lambda create-function --function-name TEMPLATE_LAMBDA_START_TRANSCODING_NAM
 aws lambda add-permission --function-name TEMPLATE_LAMBDA_START_TRANSCODING_NAME --statement-id TEMPLATE_LAMBDA_START_TRANSCODING_NAME-invoke --action lambda:InvokeFunction --principal s3.amazonaws.com --source-arn "arn:aws:s3:::TEMPLATE_BUCKET_NAME_TO_UPLOAD"
 # add bucket create notification
 aws s3api put-bucket-notification-configuration --bucket TEMPLATE_BUCKET_NAME_TO_UPLOAD --notification-configuration file://../lambda/upload-bucket-create-notification.json
+
+#create function for notification on transcode finishing
+zip -j ../lambda/transcode-videos-notification/index.zip ../lambda/transcode-videos-notification/index.js
+aws lambda create-function --function-name TEMPLATE_LAMBDA_NOTIFICATION_NAME --zip-file fileb://../lambda/transcode-videos-notification/index.zip --handler index.handler --runtime nodejs6.10 --role arn:aws:iam::TEMPLATE_CUSTOMER_ID:role/TEMPLATE_LAMBDA_ROLE_NAME --environment Variables="{API_DOMAIN=TEMPLATE_API_DOMAIN}"
+# attach policy to function so the s3 bucket can invoke it
+aws lambda add-permission --function-name TEMPLATE_LAMBDA_NOTIFICATION_NAME --statement-id TEMPLATE_LAMBDA_NOTIFICATION_NAME-invoke --action lambda:InvokeFunction --principal s3.amazonaws.com --source-arn "arn:aws:s3:::TEMPLATE_BUCKET_NAME_FOR_VIDEOS"
+# add bucket create notification
+aws s3api put-bucket-notification-configuration --bucket TEMPLATE_BUCKET_NAME_FOR_VIDEOS --notification-configuration file://../lambda/upload-bucket-created-notification.json
 
 #create api gateway
 aws apigateway import-rest-api --body file://../api_gateway/video-upload-swagger-apigateway.json

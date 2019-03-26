@@ -13,7 +13,8 @@
                 "logs:PutLogEvents"
             ],
             "Resource": [
-                "arn:aws:logs:TEMPLATE_REGION:TEMPLATE_CUSTOMER_ID:log-group:/aws/lambda/studivz-transcode-videos:*"
+                "arn:aws:logs:TEMPLATE_REGION:TEMPLATE_CUSTOMER_ID:log-group:/aws/lambda/TEMPLATE_LAMBDA_GET_UPLOAD_URL_NAME:*",
+                "arn:aws:logs:TEMPLATE_REGION:TEMPLATE_CUSTOMER_ID:log-group:/aws/lambda/TEMPLATE_LAMBDA_START_TRANSCODING_NAME:*"
             ]
         }
     ]

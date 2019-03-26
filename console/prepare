@@ -11,7 +11,9 @@ LAMBDA_ROLE_NAME='testing_lambda_role'
 LAMBDA_LOGGING_POLICY_NAME='testing_lambda_logging_policy'
 LAMBDA_GET_UPLOAD_URL_NAME='testing_lambda_get_upload_url'
 LAMBDA_START_TRANSCODING_NAME='testing_lambda_start_transcoding'
+LAMBDA_NOTIFICATION_NAME='testing_lambda_notification'
 AUTH_DOMAIN='studivz.vinidev.com'
+API_NAME='video_upload_api'
 
 SUB_TEMPLATE="s/TEMPLATE_REGION/$REGION/g; 
 s/TEMPLATE_CUSTOMER_ID/$CUSTOMER_ID/g;
@@ -26,7 +28,9 @@ s/TEMPLATE_LAMBDA_ROLE_NAME/$LAMBDA_ROLE_NAME/g;
 s/TEMPLATE_LAMBDA_LOGGING_POLICY_NAME/$LAMBDA_LOGGING_POLICY_NAME/g;
 s/TEMPLATE_LAMBDA_GET_UPLOAD_URL_NAME/$LAMBDA_GET_UPLOAD_URL_NAME/g;
 s/TEMPLATE_LAMBDA_START_TRANSCODING_NAME/$LAMBDA_START_TRANSCODING_NAME/g;
-s/TEMPLATE_AUTH_DOMAIN/$AUTH_DOMAIN/g;"
+s/TEMPLATE_LAMBDA_NOTIFICATION_NAME/$LAMBDA_NOTIFICATION_NAME/g;
+s/TEMPLATE_AUTH_DOMAIN/$AUTH_DOMAIN/g;
+s/TEMPLATE_API_NAME/$API_NAME/g;"
 
 sed "$SUB_TEMPLATE" create_stack.template>create_stack
 sed "$SUB_TEMPLATE" delete_stack.template>delete_stack
@@ -38,6 +42,12 @@ sed "$SUB_TEMPLATE" ../iam/stream-s3-policy.json.template>../iam/stream-s3-polic
 sed "$SUB_TEMPLATE" ../iam/upload-policy.json.template>../iam/upload-policy.json
 
 sed "$SUB_TEMPLATE" ../iam/lambda-log-policy.json.template>../iam/lambda-log-policy.json
+
+sed "$SUB_TEMPLATE" ../lambda/upload-bucket-create-notification.json.template>../lambda/upload-bucket-create-notification.json
+
+sed "$SUB_TEMPLATE" ../lambda/upload-bucket-created-notification.json.template>../lambda/upload-bucket-created-notification.json
+
+sed "$SUB_TEMPLATE" ../api_gateway/video-upload-swagger-apigateway.json.template>../api_gateway/video-upload-swagger-apigateway.json
 
 chmod 755 create_stack
 chmod 755 delete_stack

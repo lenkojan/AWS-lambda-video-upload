@@ -5,3 +5,8 @@ rm -f ../iam/stream-s3-policy.json
 rm -f ../iam/upload-policy.json
 rm -f ../iam/lambda-log-policy.json
 rm -f ../api_gateway/video-upload-swagger-apigateway.json
+rm -f ../lambda/upload-bucket-create-notification.json
+rm -f ../lambda/upload-bucket-created-notification.json
+rm -f ../lambda/transcode-videos-get-url/index.zip
+rm -f ../lambda/transcode-videos/index.zip
+rm -f ../lambda/transcode-videos-notification/index.zip

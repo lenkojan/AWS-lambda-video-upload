@@ -14,9 +14,14 @@ aws iam delete-role --role-name TEMPLATE_TRANSCODER_ROLE_NAME
 PRESET_ID=`aws elastictranscoder list-presets | jq -r '.Presets[]| select(.Name == "TEMPLATE_TRANSCODER_PRESSET_NAME")|.Id'`
 aws elastictranscoder delete-preset --id $PRESET_ID
 
+#delete api gateway
+API_ID=`aws apigateway get-rest-apis | jq -r '.items[]| select(.name == "TEMPLATE_API_NAME")|.id'`
+aws apigateway delete-rest-api --rest-api-id $API_ID
+
 #delete lambda functions
-# create function for generating signed urls
 aws lambda delete-function --function-name TEMPLATE_LAMBDA_GET_UPLOAD_URL_NAME
+aws lambda delete-function --function-name TEMPLATE_LAMBDA_START_TRANSCODING_NAME
+aws lambda delete-function --function-name TEMPLATE_LAMBDA_NOTIFICATION_NAME
 
 #delete policies and roles for lambda functions
 aws iam detach-role-policy --role-name TEMPLATE_LAMBDA_ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AmazonElasticTranscoder_JobsSubmitter
